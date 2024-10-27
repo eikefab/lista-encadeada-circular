@@ -172,6 +172,30 @@ def test_remove_responsavel():
     
     assert not linked_list.responsavel, "Erro: Ainda há algum responsável mesmo com a lista vazia"
 
+def test_adiciona_roda_adiciona():
+    linked_list = ListaEncadeadaCircular()
+    
+    linked_list.adicionar_membro(abel)
+    linked_list.adicionar_membro(bia)
+
+    assert linked_list.to_list(), [abel, bia]
+
+    linked_list.proximo_responsavel()
+
+    assert linked_list.responsavel, bia
+
+    linked_list.adicionar_membro(carlos)
+
+    assert linked_list.responsavel, bia
+
+    linked_list.proximo_responsavel()
+
+    assert linked_list.responsavel, carlos
+
+    linked_list.proximo_responsavel()
+
+    assert linked_list.responsavel, abel
+
 def test():
     test_abel_abel()
     test_abel_bia_abel()
@@ -180,6 +204,7 @@ def test():
     test_error_remove()
     test_removes()
     test_remove_responsavel()
+    test_adiciona_roda_adiciona()
     
     print("Testes validados com sucesso.")
     
