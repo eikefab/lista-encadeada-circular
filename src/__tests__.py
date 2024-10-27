@@ -8,8 +8,10 @@ def test():
     linked_list.adicionar_membro(Membro('Carlos', 'carlos@email.com'))
     linked_list.adicionar_membro(Membro('Davi', 'davi@email.com'))
     
-    for i in linked_list.to_list():
-        print(f"{i.nome} - {i.email}", end=", ")
+    print([x.nome for x in linked_list.to_list()])
+    
+    
+    linked_list.proximo_responsavel()
     
 if __name__ == "__main__":
     test()
