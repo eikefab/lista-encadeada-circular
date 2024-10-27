@@ -31,12 +31,10 @@ class ListaEncadeadaCircular:
     def to_list(self):
         '''
             O(N), sendo N a quantidade de nós. Retorna a lista encadeada numa array normal.
-            
-            Dispara erro de "ListaVazia" caso a lista esteja vazia.
         '''
         
         if self.is_empty():
-            raise ListaVazia("A lista está vazia!")
+            return []
         
         data = []
         node = self.primeiro
