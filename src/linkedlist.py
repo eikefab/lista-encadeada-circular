@@ -104,14 +104,14 @@ class ListaEncadeadaCircular:
         if membro == self.responsavel:
             self.responsavel = self.responsavel.prox
         
-        if self.tamanho == 1: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
-            self.primeiro = None
-            self.responsavel = None
-            self.tamanho = 0
-
-            return
-        
         if membro == self.primeiro: # Caso o item a ser removido seja o primeiro nó.
+            if self.tamanho == 1: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
+                self.primeiro = None
+                self.responsavel = None
+                self.tamanho = 0
+
+                return
+            
             node = self.primeiro
             
             while node.prox != self.primeiro: # Busca o penúltimo ponteiro
