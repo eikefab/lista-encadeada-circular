@@ -102,9 +102,9 @@ class ListaEncadeadaCircular:
             raise ListaVazia("A lista está vazia!")
         
         if membro == self.responsavel:
-            self.responsavel = membro.prox
+            self.responsavel = self.responsavel.prox
         
-        if self.tamanho == 1: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
+        if self.tamanho == 1 and membro == self.primeiro: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
             self.primeiro = None
             self.responsavel = None
             self.tamanho = 0
@@ -122,7 +122,7 @@ class ListaEncadeadaCircular:
         
         while node.prox != self.primeiro:
             if membro == node:
-                anterior.prox = membro.prox
+                anterior.prox = membro.prox # Dá um "shift" no membro atual, removendo ele da lista ao indicar que o nó anterior aponta para seu próximo e não mais ele.
                 self.tamanho -= 1
                 
                 return
