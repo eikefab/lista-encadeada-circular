@@ -15,32 +15,5 @@ def test():
     
     print([x.nome for x in linked_list.to_list()])
     
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    
-    print(linked_list.responsavel.nome)
-    
-    linked_list.remover_membro(carlos)
-    
-    print([x.nome for x in linked_list.to_list()])
-    
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    
-    linked_list.remover_membro(abel)
-    
-    print(linked_list.responsavel.nome)
-    
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    linked_list.proximo_responsavel()
-    
-    print(linked_list.responsavel.nome)
-    
-    print([x.nome for x in linked_list.to_list()])
-    
 if __name__ == "__main__":
     test()

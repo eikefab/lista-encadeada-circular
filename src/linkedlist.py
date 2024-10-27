@@ -104,7 +104,7 @@ class ListaEncadeadaCircular:
         if membro == self.responsavel:
             self.responsavel = self.responsavel.prox
         
-        if self.tamanho == 1 and membro == self.primeiro: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
+        if self.tamanho == 1: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
             self.primeiro = None
             self.responsavel = None
             self.tamanho = 0
@@ -112,7 +112,14 @@ class ListaEncadeadaCircular:
             return
         
         if membro == self.primeiro: # Caso o item a ser removido seja o primeiro nó.
+            node = self.primeiro
+            
+            while node.prox != self.primeiro: # Busca o penúltimo ponteiro
+                node = node.prox
+            
+            node.prox = membro.prox # Aponta o penúltimo ponteiro para o antes 2o, agora primeiro nó da lista.
             self.primeiro = membro.prox
+            
             self.tamanho -= 1
             
             return
@@ -120,14 +127,14 @@ class ListaEncadeadaCircular:
         node = self.primeiro
         anterior = None
         
-        while node.prox != self.primeiro:
+        for _ in range(len(self)):
             if membro == node:
                 anterior.prox = membro.prox # Dá um "shift" no membro atual, removendo ele da lista ao indicar que o nó anterior aponta para seu próximo e não mais ele.
                 self.tamanho -= 1
-                
-                return
 
+                return
+            
             anterior = node
             node = node.prox
         
-        raise MembroNaoExiste("Impossível remover, o membro está vazio!")
+        raise MembroNaoExiste("Impossível remover, o membro não existe!")
