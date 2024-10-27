@@ -6,106 +6,128 @@ class MembroNaoExiste(Exception):
 
 class Membro:
     
-    def __init__(self, nome, email, prox = None):
+    def __init__(self, nome, email):
         self.nome = nome
         self.email = email
-        self.prox = prox
+        self.prox = None
 
 class ListaEncadeadaCircular:
     
     def __init__(self):
         self.primeiro = None
+        self.responsavel = None
         self.tamanho = 0
     
     def __len__(self):
         return self.tamanho
 
     def is_empty(self):
+        '''
+            Verdadeiro caso a variável TAMANHO esteja em 0.
+        '''
+        
         return self.tamanho == 0
     
-    def to_list(self, show_as_circular = False):
+    def to_list(self):
+        '''
+            O(N), sendo N a quantidade de nós. Retorna a lista encadeada numa array normal.
+            
+            Dispara erro de "ListaVazia" caso a lista esteja vazia.
+        '''
+        
         if self.is_empty():
-            return []
+            raise ListaVazia("A lista está vazia!")
         
         data = []
         node = self.primeiro
         
+        # Por ser circular, caso percorresse utilizando um 'while', ficaria num loop infinito e teriam de ser feitas verificações. Por armazenar o tamanho, fica cômodo utilizar um laço.
         for _ in range(len(self)):
             data.append(node)
             
-            node = node.prox
-        
-        if show_as_circular:
-            data.append(self.primeiro)
+            node = node.prox # Altera o cursor para o próximo
         
         return data
     
     def adicionar_membro(self, membro: Membro):
+        '''
+            O(N), sendo N a quantidade de nós até encontrar o próximo nó diferente da cabeça.
+        '''
+        
         self.tamanho += 1
         
+        # Caso o item a ser adicionado seja o primeiro da lista
         if self.primeiro is None:
             self.primeiro = membro
+            self.responsavel = membro
             self.primeiro.prox = membro
             
             return
         
         node = self.primeiro
         
-        while node.prox != self.primeiro:
+        '''
+            Procura o primeiro nó vago entre o primeiro e o resto, sendo que: A -> B -> C -> D -> A -> B -> C -> D -> (...),
+            ao chegar na primeira aparição de "A", quebra o loop e determina que a posição vaga é a de "A".
+        '''
+        while node.prox != self.primeiro: 
             node = node.prox
         
-        node.prox = membro
-        membro.prox = self.primeiro
-        
+        node.prox = membro # Substitui o membro
+        membro.prox = self.primeiro # Retorna que o próximo dele é o inicial
+    
     def proximo_responsavel(self):
-        node = self.primeiro
+        '''
+            Avança com o cursor de responsável.
         
-        while node:
-            print(node.nome)
+            O(1) pois não precisa percorrer nada, uma vez que os membros já foram adicionados de maneira circular.
             
-            node = node.prox
+            Ex.:
+                Abel -> Bia -> Carlos -> Davi -> Abel
+            
+            Ao chegar em "Davi" e a função ser chamada novamente, o ponteiro da variável responsável é apontado de volta para Abel, que possui toda
+            a estrutura da lista encadeada armazenada em si, mantendo a ordem e circularidade da lista encadeada.
+        '''
         
-    def remover_membro(self, membro):
+        self.responsavel = self.responsavel.prox
+        
+    def remover_membro(self, membro: Membro):
+        '''
+            O(N), sendo N o número de nós.
+            
+            Remove o membro, disparando excecções caso não o encontre ou a lista esteja vazia.
+        '''
+        
         if self.is_empty():
-            raise ListaVazia("Impossível remover, a lista está vazia!")
+            raise ListaVazia("A lista está vazia!")
+        
+        if membro == self.responsavel:
+            self.responsavel = membro.prox
+        
+        if self.tamanho == 1: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
+            self.primeiro = None
+            self.responsavel = None
+            self.tamanho = 0
 
-        atual = self.primeiro
+            return
+        
+        if membro == self.primeiro: # Caso o item a ser removido seja o primeiro nó.
+            self.primeiro = membro.prox
+            self.tamanho -= 1
+            
+            return
+        
+        node = self.primeiro
         anterior = None
-
-        # percorrer a lista inteira, se encontrar ou acabar a lista, para
-        ## O(N)
-        while True:
-            # encontrou
-            if atual == membro:
-                # se for unico, redefine a lista
-                if self.tamanho == 1:
-                    self.primeiro = None
-                # nao é o unico
-                else:
-                    # remoção do membro
-                    if anterior is None:  
-                        self.primeiro = atual.prox
-                    else:
-                        anterior.prox = atual.prox
-
-                    # linhas comentadas por enquanto, corrige o apontamento do ultimo para o primeiro caso estejamos removendo o ultimo
-                    # if atual.prox is None:
-                    #    anterior.prox = self.primeiro
-                
-                # reajusta tamanho e finaliza
+        
+        while node.prox != self.primeiro:
+            if membro == node:
+                anterior.prox = membro.prox
                 self.tamanho -= 1
+                
                 return
 
-            # mantem sequencia
-            anterior = atual
-            atual = atual.prox
-            
-            # por ser circular, se o primeiro for igual o atual, voltamos ao inicio
-            if atual == self.primeiro:
-                break
-
-        # saiu do loop sem encontrar
-        raise MembroNaoExiste("Impossível remover, membro não existe!")
-    
-            
-    
+            anterior = node
+            node = node.prox
+        
+        raise MembroNaoExiste("Impossível remover, o membro está vazio!")
