@@ -87,6 +87,9 @@ class ListaEncadeadaCircular:
             a estrutura da lista encadeada armazenada em si, mantendo a ordem e circularidade da lista encadeada.
         '''
         
+        if self.is_empty():
+            raise ListaVazia("A lista está vazia!")
+        
         self.responsavel = self.responsavel.prox
         
     def remover_membro(self, membro: Membro):
@@ -100,7 +103,7 @@ class ListaEncadeadaCircular:
             raise ListaVazia("A lista está vazia!")
         
         if membro == self.responsavel:
-            self.responsavel = self.responsavel.prox
+            self.proximo_responsavel()
         
         if membro == self.primeiro: # Caso o item a ser removido seja o primeiro nó.
             if self.tamanho == 1: # Caso haja apenas um nó na lista, invalida os dados (equivalente ao __init__).
