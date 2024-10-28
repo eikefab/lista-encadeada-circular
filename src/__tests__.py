@@ -34,7 +34,6 @@ def test_abel_bia_abel():
     
     assert linked_list.responsavel == abel, "Erro: Esperado responsável Abel"
 
-
 def test_abel_bia_carlos_abel():
     linked_list = ListaEncadeadaCircular()
     
@@ -145,6 +144,8 @@ def test_removes():
         assert False, "Erro: Exceção não lançada para lista vazia."
     except Exception as e:
         assert str(e) == "A lista está vazia!", "Erro: Mensagem de erro inesperada"
+        
+    assert len(linked_list) == 0, "Erro: A lista apresenta tamanho diferente de 0"
     
 def test_remove_responsavel():
     linked_list = ListaEncadeadaCircular()
