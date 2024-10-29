@@ -15,6 +15,7 @@ class ListaEncadeadaCircular:
     
     def __init__(self):
         self.primeiro = None
+        self.ultimo = None
         self.responsavel = None
         self.tamanho = 0
     
@@ -57,22 +58,16 @@ class ListaEncadeadaCircular:
         # Caso o item a ser adicionado seja o primeiro da lista
         if self.primeiro is None:
             self.primeiro = membro
+            self.ultimo = membro
             self.responsavel = membro
             self.primeiro.prox = membro
             
             return
         
-        node = self.primeiro
+        self.ultimo.prox = membro
+        membro.prox = self.primeiro
         
-        '''
-            Procura o primeiro nó vago entre o primeiro e o resto, sendo que: A -> B -> C -> D -> A -> B -> C -> D -> (...),
-            ao chegar na primeira aparição de "A", quebra o loop e determina que a posição vaga é a de "A".
-        '''
-        while node.prox != self.primeiro: 
-            node = node.prox
-        
-        node.prox = membro # Substitui o membro
-        membro.prox = self.primeiro # Retorna que o próximo dele é o inicial
+        self.ultimo = membro
     
     def proximo_responsavel(self):
         '''
