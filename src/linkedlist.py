@@ -50,7 +50,7 @@ class ListaEncadeadaCircular:
     
     def adicionar_membro(self, membro: Membro):
         '''
-            O(N), sendo N a quantidade de nós até encontrar o próximo nó diferente da cabeça.
+            O(1), sendo N a quantidade de nós até encontrar o próximo nó diferente da cabeça.
         '''
         
         self.tamanho += 1
